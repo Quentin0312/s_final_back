@@ -1,5 +1,6 @@
 import io
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 import sqlite3
 from sqlite3 import Cursor
@@ -7,6 +8,16 @@ from sqlite3 import Cursor
 from starlette.responses import StreamingResponse
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # TODO: Clean and refactor
 # TODO: Setup tests
