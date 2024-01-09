@@ -1,5 +1,5 @@
 CREATE TABLE Pages (
-    id INTEGER,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     page_image BLOB,
     content TEXT
 )
