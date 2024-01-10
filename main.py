@@ -65,6 +65,6 @@ def read_item(key_word: str):
     return {
         "key_word": key_word,
         "first_text_content": response[0][0],
-        "image_bytes": encoded_image,
+        "image_base64": encoded_image,
     }
     # return StreamingResponse(io.BytesIO(response[0][1]), media_type="image/jpg")
