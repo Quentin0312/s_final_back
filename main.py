@@ -1,11 +1,12 @@
-import io
+# import io
+# from starlette.responses import StreamingResponse
+import base64
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 import sqlite3
 from sqlite3 import Cursor
 
-from starlette.responses import StreamingResponse
 
 app = FastAPI()
 
@@ -18,12 +19,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+# TODO: Create a service like function that handle requests to db
 # TODO: Clean and refactor
 # TODO: Setup tests
 # TODO: Gérer les cas d'erreurs
 
 
+# TODO: Rename
 # TODO: Put in an other file
 def get_page(key_word: str, cur: Cursor) -> list[str]:
     sql = ""
@@ -33,6 +35,17 @@ def get_page(key_word: str, cur: Cursor) -> list[str]:
 
     res = cur.execute(sql, (f"%{key_word}%",))  # TODO: Put sql in a sql file
     return res.fetchall()
+
+
+# TODO: Put in an other file
+def get_image_encoded(url: str) -> str:
+    image_bytes = b""
+    with open(url, "rb") as image_file:
+        image_bytes = image_file.read()
+        encoded_image = base64.b64encode(image_bytes).decode("utf-8")
+        image_file.close()
+
+    return encoded_image
 
 
 @app.get("/")
@@ -47,5 +60,11 @@ def read_item(key_word: str):
 
     response = get_page(key_word, cur)
 
-    # return {"key_word": key_word, "first_text_content": response[0][0]}
-    return StreamingResponse(io.BytesIO(response[0][1]), media_type="image/jpg")
+    encoded_image = get_image_encoded(response[0][1])
+
+    return {
+        "key_word": key_word,
+        "first_text_content": response[0][0],
+        "image_bytes": encoded_image,
+    }
+    # return StreamingResponse(io.BytesIO(response[0][1]), media_type="image/jpg")
