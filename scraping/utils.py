@@ -20,17 +20,20 @@ def get_refs(url: str, regex) -> list[str]:
     return refs
 
 
-def wait_sleep_time_is_passed(reference_time, sleep_time: int):
-    # Be sure to do 1 request each sleep_time sec
-    request_time = datetime.datetime.now()
-    # if :
-    # reference_time = request_time
-    if (
-        reference_time is not None
-        and request_time.timestamp() < reference_time.timestamp() + sleep_time
-    ):
-        time.sleep(reference_time.timestamp() + sleep_time - request_time.timestamp())
-        # reference_time = request_time
+# def wait_sleep_time_is_passed(reference_time, sleep_time: int):
+#     # Be sure to do 1 request each sleep_time sec
+#     request_time = datetime.datetime.now()
+#     # if :
+#     # reference_time = request_time
+#     if (
+#         reference_time is not None
+#         and reference_time.timestamp() + sleep_time > request_time.timestamp()
+#     ):
+#         time.sleep(reference_time.timestamp() + sleep_time - request_time.timestamp())
+#         # reference_time = request_time
 
-    # return reference_time
-    return request_time
+
+#     # return reference_time
+#     return request_time
+def force_wait_sleep_time(sleep_time: int):
+    time.sleep(sleep_time)

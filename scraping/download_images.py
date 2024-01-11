@@ -3,7 +3,7 @@ import datetime
 import requests
 import shutil
 
-from utils import wait_sleep_time_is_passed
+from utils import force_wait_sleep_time
 
 
 def open_full_links_file() -> list:  # TODO: Préciser en com le format de la liste
@@ -68,14 +68,15 @@ print("\n----------Fetching links from local file----------")
 links = open_full_links_file()
 
 print("\n----------Download images----------")
-reference_time = None
+# reference_time = None
 for link in links:
     url = link[0]
     ref = link[1]
     file_name = link[2]
     if not is_file_already_stored(ref, file_name):
         # Wait for sleep_time to be over
-        reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=60)
+        # reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=60)
+        force_wait_sleep_time(60)  # ! Dirty fix
 
         # Download image if not already stored
         download_image(url, ref, file_name)
