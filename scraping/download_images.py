@@ -49,11 +49,16 @@ def download_image(url: str, ref: str, file_name: str):
     if res.status_code == 200:
         with open(f"./dataset/{ref}/{file_name}", "wb") as image_file:
             shutil.copyfileobj(res.raw, image_file)
+            image_file.close()
+
         print(log_info)
+        with open(f"./scraping/logs/{today}.txt", "a") as log_file:
+            log_file.write("\n" + log_info)
+            log_file.close()
     else:
         print("Image Couldn't be retrieved: " + url)
-        with open(f"./scraping/logs/{today}.txt", "a") as log_file:
-            log_file.write("\n ERROR: " + log_info)
+        with open(f"./scraping/logs/error/{today}_ERROR.txt", "a") as log_file:
+            log_file.write("\n ERROR: Status code: " + res.status_code + log_info)
             log_file.close()
 
 
