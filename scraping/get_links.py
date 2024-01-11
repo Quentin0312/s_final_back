@@ -1,7 +1,8 @@
 import re
+import os
 import datetime
 
-from utils import get_refs, wait_sleep_time_is_passed
+from utils import get_refs, force_wait_sleep_time
 
 
 def open_refs_file() -> list[str]:
@@ -10,13 +11,31 @@ def open_refs_file() -> list[str]:
         return refs[:-1]
 
 
+def get_filtered_refs() -> list[str]:
+    """
+    Get all_refs from file
+    and filter the refs of data already downloaded
+    """
+    all_refs = open_refs_file()
+    refs_already_downloaded = os.listdir("./dataset")
+    filtered_refs = []
+
+    for ref in all_refs:
+        if ref[:-1] not in refs_already_downloaded:
+            filtered_refs.append(ref)
+
+    return filtered_refs
+
+
+# TODO: Add log system !
 def get_all_files_names(refs: list[str], sleep: int) -> dict:
     prospectus = {}
-    reference_time = None
+    # reference_time = None
     # Get all file names
     for ref in refs:
         # Wait sleep time to be passed
-        reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=30)
+        # reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=30)
+        force_wait_sleep_time(sleep)  # ! Dirty fix
 
         image_file_names = get_refs(
             url=f"https://lapub.re/prospectus/{ref}HTML/files/assets/common/page-html5-substrates/",
@@ -66,12 +85,12 @@ def save_full_links(prospectus: dict):
         file.close()
 
 
-print("\n-----Fetch refs from file-----")
-refs = open_refs_file()
+print("\n-----Fetch refs from files-----")
+refs = get_filtered_refs()
 
 print("\n-----Fetch file names from web-----")
 prospectus = get_all_files_names(
-    refs[:2], sleep=30
+    refs[:4], sleep=60
 )  # ! Change to the full refs list to get alls
 
 print("\n-----Remove low quality file names-----")
