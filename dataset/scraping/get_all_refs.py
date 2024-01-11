@@ -1,32 +1,20 @@
 import re
-import requests
-from bs4 import BeautifulSoup
+
+from utils import get_refs
 
 
-def get_refs(url: str, regex) -> list[str]:
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    pattern = re.compile(regex)
-
-    specific_links = soup.find_all("a", href=pattern)
-
-    refs = []
-    for link in specific_links:
-        refs.append(link.text)
-
-    return refs
-
-
-def filter_refs(refs: list):
+def filter_refs(refs: list) -> list:
+    new_refs = []
     for ref in refs:
         if ref[-2:-1] != "":
             if ref[-2:-1] != 9:
                 pattern = ref[:-2] + r"[" + str(int(ref[-2:-1]) + 1) + r"-9]\/"
                 regex = re.compile(pattern)
                 matches = [s for s in refs if regex.search(s)]
-                if len(matches) >= 1:
-                    refs.remove(ref)
+                if len(matches) == 0:
+                    new_refs.append(ref)
+
+    return new_refs
 
 
 def save_all_refs(refs: list[str]):
@@ -37,11 +25,14 @@ def save_all_refs(refs: list[str]):
 
 
 # Get all refs
+print("\n-----Getting all refs-----")
 refs = get_refs(url="https://lapub.re/prospectus/?C=M;O=D", regex=r"\d{17}-\d\/")
 
 # Remove duplicate refs
-filter_refs(refs)
+print("\n----Droping duplicates----")
+filtered_refs = filter_refs(refs)
 
 
 # Save refs
-save_all_refs(refs)
+print("\n----------Saving----------")
+save_all_refs(filtered_refs)
