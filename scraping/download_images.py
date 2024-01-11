@@ -71,7 +71,9 @@ print("\n----------Download images----------")
 # reference_time = None
 for link in links:
     url = link[0]
-    ref = link[1]
+    ref = link[
+        1
+    ]  # TODO: Fix: at the end of the file this index out of range beacuse "" is the raw data
     file_name = link[2]
     if not is_file_already_stored(ref, file_name):
         # Wait for sleep_time to be over
