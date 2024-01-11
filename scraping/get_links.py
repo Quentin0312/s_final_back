@@ -5,7 +5,7 @@ from utils import get_refs, wait_sleep_time_is_passed
 
 
 def open_refs_file() -> list[str]:
-    with open("./dataset/scraping/refs.txt", "r") as refs_file:
+    with open("./scraping/refs.txt", "r") as refs_file:
         refs = refs_file.read().split("\n")
         return refs[:-1]
 
@@ -15,13 +15,8 @@ def get_all_files_names(refs: list[str], sleep: int) -> dict:
     reference_time = None
     # Get all file names
     for ref in refs:
-        # Be sure to do 1 request each timeout sec
+        # Wait sleep time to be passed
         reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=30)
-        # request_time = datetime.datetime.now()
-        # if reference_time is None:
-        #     reference_time = request_time
-        # elif request_time.timestamp() < reference_time.timestamp() + sleep:
-        #     time.sleep(reference_time.timestamp() + sleep - request_time.timestamp())
 
         image_file_names = get_refs(
             url=f"https://lapub.re/prospectus/{ref}HTML/files/assets/common/page-html5-substrates/",
@@ -58,7 +53,7 @@ def remove_lower_quality_image_names(prospectus: dict[str, list[str]]) -> dict:
 
 
 def save_full_links(prospectus: dict):
-    with open("./dataset/scraping/full_links.txt", "w") as file:
+    with open("./scraping/full_links.txt", "w") as file:
         for ref in list(prospectus.keys()):
             for file_name in prospectus[ref]:
                 file.write(

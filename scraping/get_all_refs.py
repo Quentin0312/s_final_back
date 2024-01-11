@@ -18,7 +18,7 @@ def filter_refs(refs: list) -> list:
 
 
 def save_all_refs(refs: list[str]):
-    with open("./dataset/scraping/refs.txt", "w") as refs_file:
+    with open("./scraping/refs.txt", "w") as refs_file:
         for ref in refs:
             refs_file.write(ref + "\n")
         refs_file.close()
