@@ -6,7 +6,7 @@ import shutil
 from utils import force_wait_sleep_time
 
 
-def open_full_links_file() -> list:  # TODO: Préciser en com le format de la liste
+def open_full_links_file() -> list:
     """
     Format: [[URL, ref, file_name],...]
     """
