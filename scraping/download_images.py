@@ -98,7 +98,8 @@ for link in links:
     if not is_file_already_stored(ref, file_name, today):
         # Wait for sleep_time to be over
         # reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=60)
-        force_wait_sleep_time(60)  # ! Dirty fix
 
         # Download image if not already stored
         download_image(url, ref, file_name, today)
+
+        force_wait_sleep_time(60)  # ! Dirty fix
