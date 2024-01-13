@@ -47,7 +47,6 @@ def is_file_already_stored(ref: str, file_name: str, today: str) -> bool:
             return False
 
 
-# TODO: Use an object instead
 def write_log(today: str, to_write: str, error=False):
     if error:
         location = f"./scraping/logs/error/{today}_ERROR.txt"
