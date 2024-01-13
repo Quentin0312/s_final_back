@@ -35,7 +35,6 @@ def get_all_files_names(refs: list[str], sleep: int) -> dict:
     for ref in refs:
         # Wait sleep time to be passed
         # reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=30)
-        force_wait_sleep_time(sleep)  # ! Dirty fix
 
         image_file_names = get_refs(
             url=f"https://lapub.re/prospectus/{ref}HTML/files/assets/common/page-html5-substrates/",
@@ -45,6 +44,7 @@ def get_all_files_names(refs: list[str], sleep: int) -> dict:
             datetime.datetime.now(),
             f"=> https://lapub.re/prospectus/{ref}HTML/files/assets/common/page-html5-substrates/",
         )
+        force_wait_sleep_time(sleep)  # ! Dirty fix
 
         prospectus[ref] = image_file_names
 
