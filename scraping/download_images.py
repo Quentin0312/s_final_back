@@ -6,6 +6,7 @@ import shutil
 from utils import force_wait_sleep_time
 
 
+# TODO: Create list of dict instead !
 def open_full_links_file() -> list:
     """
     Format: [[URL, ref, file_name],...]
@@ -21,7 +22,7 @@ def open_full_links_file() -> list:
     return links
 
 
-def is_file_already_stored(ref: str, file_name: str) -> bool:
+def is_file_already_stored(ref: str, file_name: str, today: str) -> bool:
     """
     Also create folder if non existent
     """
@@ -31,12 +32,35 @@ def is_file_already_stored(ref: str, file_name: str) -> bool:
         return False
     else:
         if file_name in os.listdir(f"./dataset/{ref_folder_name}"):
+            log_info = (
+                "Already stored"
+                + " | Ref: "
+                + ref_folder_name
+                + " | File: "
+                + file_name
+            )
+
+            write_log(today, to_write=log_info)
+
             return True
         else:
             return False
 
 
-def download_image(url: str, ref: str, file_name: str):
+# TODO: Use an object instead
+def write_log(today: str, to_write: str, error=False):
+    if error:
+        location = f"./scraping/logs/error/{today}_ERROR.txt"
+    else:
+        location = f"./scraping/logs/{today}.txt"
+
+    with open(location, "a") as log_file:
+        print(to_write)
+        log_file.write("\n" + to_write)
+        log_file.close()
+
+
+def download_image(url: str, ref: str, file_name: str, today: str):
     res = requests.get(url, stream=True)
     log_info = (
         datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -51,17 +75,13 @@ def download_image(url: str, ref: str, file_name: str):
             shutil.copyfileobj(res.raw, image_file)
             image_file.close()
 
-        print(log_info)
-        with open(f"./scraping/logs/{today}.txt", "a") as log_file:
-            log_file.write("\n" + log_info)
-            log_file.close()
+        write_log(today, to_write=log_info)
     else:
-        print("Image Couldn't be retrieved: " + url)
-        with open(f"./scraping/logs/error/{today}_ERROR.txt", "a") as log_file:
-            log_file.write("\n ERROR: Status code: " + res.status_code + log_info)
-            log_file.close()
+        error_log_info = " ERROR: Status code: " + res.status_code + log_info
+        write_log(today, to_write=error_log_info, error=True)
 
 
+# TODO: Use beginning start instead
 today = datetime.date.today().strftime("%Y-%m-%d")
 
 print("\n----------Fetching links from local file----------")
@@ -75,10 +95,10 @@ for link in links:
         1
     ]  # TODO: Fix: at the end of the file this index out of range beacuse "" is the raw data
     file_name = link[2]
-    if not is_file_already_stored(ref, file_name):
+    if not is_file_already_stored(ref, file_name, today):
         # Wait for sleep_time to be over
         # reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=60)
         force_wait_sleep_time(60)  # ! Dirty fix
 
         # Download image if not already stored
-        download_image(url, ref, file_name)
+        download_image(url, ref, file_name, today)
