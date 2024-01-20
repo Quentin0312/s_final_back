@@ -43,3 +43,16 @@ def lemmatize(text: str, nlp: Language) -> str:
     lemmatized_text = " ".join(lemmatized_tokens)
 
     return lemmatized_text
+
+
+def get_bags_of_words_vector(text: str, vocabulary: list[str]) -> list[int]:
+    """
+    BOW Feature extraction
+    """
+    tokens = text.split(" ")
+
+    vector = []
+    for word in vocabulary:
+        vector.append(tokens.count(word))
+
+    return vector
