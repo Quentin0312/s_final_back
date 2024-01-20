@@ -1,7 +1,7 @@
 from spacy.language import Language
 
 # fmt: off
-special_chars = ["/","\"", ",", ";", "[", "]", "€", "(", ")","0","1","2","3","4","5","6","7","8","9","_",".",">","<"]  # TODO: add more ! (NOT "'" => mot composé géré par spacy !)
+special_chars = ["/","\"", ",", ";", "[", "]", "€", "(", ")","0","1","2","3","4","5","6","7","8","9","_",".",">","<","-"]  # TODO: add more ! (NOT "'" => mot composé géré par spacy !)
 not_a_word_letters = ["b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","w","v","x","y","z"]
 # fmt: on
 
@@ -25,7 +25,7 @@ def clean_text(text: str) -> str:
     return text
 
 
-def remove_ou_of_vocabulary_words(text: str, nlp: Language) -> str:
+def remove_out_of_vocabulary_words(text: str, nlp: Language) -> str:
     new_token_list = []
     for token in text.split(" "):
         if not (nlp.vocab[token].is_oov):
