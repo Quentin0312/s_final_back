@@ -101,4 +101,4 @@ for link in links:
         # Download image if not already stored
         download_image(url, ref, file_name, today)
 
-        force_wait_sleep_time(60)  # ! Dirty fix
+        force_wait_sleep_time(15)  # ! Dirty fix
