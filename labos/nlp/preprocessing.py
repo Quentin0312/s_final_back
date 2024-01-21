@@ -1,8 +1,10 @@
 from spacy.language import Language
 
 # fmt: off
-special_chars = ["/","\"", ",", ";", "[", "]", "€", "(", ")","0","1","2","3","4","5","6","7","8","9","_",".",">","<","-"]  # TODO: add more ! (NOT "'" => mot composé géré par spacy !)
-not_a_word_letters = ["b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","w","v","x","y","z"]
+# TODO: add more ! (NOT "'" => mot composé géré par spacy !)
+special_chars = [":","@","^","!","?","=","*","/","\"", ",", ";", "[", "]", "€", "(", ")","0","1","2","3","4","5","6","7","8","9","_",".",">","<","-"]
+# * "'" => delete only " ' " via removing single letters !
+not_a_word_letters = ["'","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","w","v","x","y","z"]
 # fmt: on
 
 
@@ -12,7 +14,7 @@ def clean_text(text: str) -> str:
 
     # Remove special chars
     for char in special_chars:
-        text = text.replace(char, " ")
+        text = text.replace(char, " ")  # OR replace(char, "") => dont cut word !?
 
     # Remove single letters
     for letter in not_a_word_letters:
