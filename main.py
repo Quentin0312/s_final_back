@@ -7,6 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 from sqlite3 import Cursor
 
+from db import sql_utils
+
+# TODO: Clean file
 
 app = FastAPI()
 
@@ -27,13 +30,11 @@ app.add_middleware(
 
 # TODO: Rename
 # TODO: Put in an other file
+# TODO: Specify output format
 def get_page(key_word: str, cur: Cursor) -> list[str]:
-    sql = ""
-    with open("./db/sql/select_pages.sql") as sql_select:
-        sql = sql_select.read()
-        sql_select.close()
+    sql = sql_utils.get_sql_statement("select_pages.sql")
 
-    res = cur.execute(sql, (f"%{key_word}%",))  # TODO: Put sql in a sql file
+    res = cur.execute(sql, (f"%{key_word}%",))
     return res.fetchall()
 
 

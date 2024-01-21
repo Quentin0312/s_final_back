@@ -73,4 +73,4 @@ for link in links:
         # Download image if not already stored
         download_image(url, ref, file_name, today)
 
-        scraping_utils.force_wait_sleep_time(15)  # ! Dirty fix
+        scraping_utils.force_wait_sleep_time(5)  # ! Dirty fix
