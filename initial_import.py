@@ -7,8 +7,9 @@ con = sqlite3.connect("./db/db_v0.sqlite")
 cur = con.cursor()
 
 reader = easyocr.Reader(lang_list=["en"])  # or fr ?
-# TODO: fns to put in "inference_pipeline_utils"
+
 # Inference
+# TODO: fns to put in "inference_pipeline_utils"
 
 datas_dict = {}
 

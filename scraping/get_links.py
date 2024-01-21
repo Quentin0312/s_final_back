@@ -2,7 +2,7 @@ import re
 import os
 import datetime
 
-from utils import get_refs, force_wait_sleep_time
+from scraping.scraping_utils import get_refs, force_wait_sleep_time
 
 
 def open_refs_file() -> list[str]:

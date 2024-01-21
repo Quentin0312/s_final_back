@@ -3,7 +3,7 @@ import datetime
 import requests
 import shutil
 
-import utils
+import scraping.scraping_utils as scraping_utils
 
 
 def is_file_already_stored(ref: str, file_name: str, today: str) -> bool:
@@ -24,7 +24,7 @@ def is_file_already_stored(ref: str, file_name: str, today: str) -> bool:
                 + file_name
             )
 
-            utils.write_log(today, to_write=log_info)
+            scraping_utils.write_log(today, to_write=log_info)
 
             return True
         else:
@@ -46,17 +46,17 @@ def download_image(url: str, ref: str, file_name: str, today: str):
             shutil.copyfileobj(res.raw, image_file)
             image_file.close()
 
-        utils.write_log(today, to_write=log_info)
+        scraping_utils.write_log(today, to_write=log_info)
     else:
         error_log_info = " ERROR: Status code: " + res.status_code + log_info
-        utils.write_log(today, to_write=error_log_info, error=True)
+        scraping_utils.write_log(today, to_write=error_log_info, error=True)
 
 
 # TODO: Use beginning start instead (with seconds)
 today = datetime.date.today().strftime("%Y-%m-%d")
 
 print("\n----------Fetching links from local file----------")
-links = utils.get_full_links_from_file()
+links = scraping_utils.get_full_links_from_file()
 
 print("\n----------Download images----------")
 # reference_time = None
@@ -73,4 +73,4 @@ for link in links:
         # Download image if not already stored
         download_image(url, ref, file_name, today)
 
-        utils.force_wait_sleep_time(15)  # ! Dirty fix
+        scraping_utils.force_wait_sleep_time(15)  # ! Dirty fix

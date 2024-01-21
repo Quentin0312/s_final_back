@@ -1,6 +1,6 @@
 import re
 
-import utils
+import scraping.scraping_utils as scraping_utils
 
 
 def filter_refs(refs: list) -> list:
@@ -26,7 +26,9 @@ def save_all_refs(refs: list[str]):
 
 # Get all refs
 print("\n-----Getting all refs-----")
-refs = utils.get_refs(url="https://lapub.re/prospectus/?C=M;O=D", regex=r"\d{17}-\d\/")
+refs = scraping_utils.get_refs(
+    url="https://lapub.re/prospectus/?C=M;O=D", regex=r"\d{17}-\d\/"
+)
 
 # Remove duplicate refs
 print("\n----Droping duplicates----")
