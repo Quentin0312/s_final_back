@@ -1,12 +1,13 @@
 import os
 import sqlite3
 import easyocr
+from db import sql_utils
 
 con = sqlite3.connect("./db/db_v0.sqlite")
 cur = con.cursor()
 
 reader = easyocr.Reader(lang_list=["en"])  # or fr ?
-
+# TODO: fns to put in "inference_pipeline_utils"
 # Inference
 
 datas_dict = {}
@@ -32,18 +33,10 @@ for prospectus in os.listdir("./datas"):  # TODO: Absolute path instead !
 
 
 # Save in DB
-def convertToBinaryData(filename):
-    with open(filename, "rb") as file:
-        blobData = file.read()
-    return blobData
 
-
-sql = ""
-with open("./db/sql/insert_pages.sql") as sql_insert_page:
-    sql = sql_insert_page.read()
-    sql_insert_page.close()
+sql = sql_utils.get_sql_statement("insert_pages.sql")
 
 for key in datas_dict.keys():
-    cur.execute(sql, (datas_dict[key], convertToBinaryData(key)))
+    cur.execute(sql, (datas_dict[key], key))
 
 con.commit()
