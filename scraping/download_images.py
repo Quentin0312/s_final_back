@@ -3,7 +3,7 @@ import datetime
 import requests
 import shutil
 
-import scraping.scraping_utils as scraping_utils
+import scraping_utils
 
 
 def is_file_already_stored(ref: str, file_name: str, today: str) -> bool:

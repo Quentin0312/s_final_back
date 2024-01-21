@@ -1,6 +1,6 @@
 import re
 
-import scraping.scraping_utils as scraping_utils
+import scraping_utils as scraping_utils
 
 
 def filter_refs(refs: list) -> list:
