@@ -15,7 +15,7 @@ datas_dict = {}
 
 p_indice = 0
 page_indice = 0
-for prospectus in os.listdir("./datas"):  # TODO: Absolute path instead !
+for prospectus in os.listdir("./datas"):
     p_indice += 1
     print("Prospectus n°", p_indice)
 
