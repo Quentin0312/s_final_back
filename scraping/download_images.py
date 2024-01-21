@@ -24,23 +24,11 @@ def is_file_already_stored(ref: str, file_name: str, today: str) -> bool:
                 + file_name
             )
 
-            write_log(today, to_write=log_info)
+            utils.write_log(today, to_write=log_info)
 
             return True
         else:
             return False
-
-
-def write_log(today: str, to_write: str, error=False):
-    if error:
-        location = f"./scraping/logs/error/{today}_ERROR.txt"
-    else:
-        location = f"./scraping/logs/{today}.txt"
-
-    with open(location, "a") as log_file:
-        print(to_write)
-        log_file.write("\n" + to_write)
-        log_file.close()
 
 
 def download_image(url: str, ref: str, file_name: str, today: str):
@@ -58,10 +46,10 @@ def download_image(url: str, ref: str, file_name: str, today: str):
             shutil.copyfileobj(res.raw, image_file)
             image_file.close()
 
-        write_log(today, to_write=log_info)
+        utils.write_log(today, to_write=log_info)
     else:
         error_log_info = " ERROR: Status code: " + res.status_code + log_info
-        write_log(today, to_write=error_log_info, error=True)
+        utils.write_log(today, to_write=error_log_info, error=True)
 
 
 # TODO: Use beginning start instead (with seconds)

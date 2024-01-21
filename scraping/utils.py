@@ -54,3 +54,15 @@ def get_full_links_from_file() -> list[list[str]]:
         links.append(link.split("|"))
 
     return links
+
+
+def write_log(today: str, to_write: str, error=False):
+    if error:
+        location = f"./scraping/logs/error/{today}_ERROR.txt"
+    else:
+        location = f"./scraping/logs/{today}.txt"
+
+    with open(location, "a") as log_file:
+        print(to_write)
+        log_file.write("\n" + to_write)
+        log_file.close()
