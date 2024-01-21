@@ -90,7 +90,7 @@ refs = get_filtered_refs()
 
 print("\n-----Fetch file names from web-----")
 prospectus = get_all_files_names(
-    refs[:60], sleep=15
+    refs[:60], sleep=5
 )  # ! Change to the full refs list to get alls
 
 print("\n-----Remove low quality file names-----")
