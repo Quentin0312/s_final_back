@@ -26,6 +26,12 @@ def clean_text(text: str) -> str:
 
 
 def remove_out_of_vocabulary_words(text: str, nlp: Language) -> str:
+    """
+    Remove words that are out of vocabulary of the arg nlp Language
+
+    Carrefull: Even if arg nlp language is `fr_core_news_lg`, non french
+        tokens can be in the vocabulary !
+    """
     new_token_list = []
     for token in text.split(" "):
         if not (nlp.vocab[token].is_oov):
@@ -37,6 +43,11 @@ def remove_out_of_vocabulary_words(text: str, nlp: Language) -> str:
 
 
 def lemmatize(text: str, nlp: Language) -> str:
+    """
+    Lemmatize is replacing a word with it's root word.
+
+    Exemple: portables => portable
+    """
     tokens = nlp(text)
 
     lemmatized_tokens = [token.lemma_ for token in tokens]

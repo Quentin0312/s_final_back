@@ -3,23 +3,7 @@ import datetime
 import requests
 import shutil
 
-from utils import force_wait_sleep_time
-
-
-# TODO: Create list of dict instead !
-def open_full_links_file() -> list:
-    """
-    Format: [[URL, ref, file_name],...]
-    """
-    links = []
-    with open("./scraping/full_links.txt", "r") as links_file:
-        file_content = links_file.read().split("\n")
-        links_file.close()
-
-    for link in file_content:
-        links.append(link.split("|"))
-
-    return links
+import utils
 
 
 def is_file_already_stored(ref: str, file_name: str, today: str) -> bool:
@@ -80,11 +64,11 @@ def download_image(url: str, ref: str, file_name: str, today: str):
         write_log(today, to_write=error_log_info, error=True)
 
 
-# TODO: Use beginning start instead
+# TODO: Use beginning start instead (with seconds)
 today = datetime.date.today().strftime("%Y-%m-%d")
 
 print("\n----------Fetching links from local file----------")
-links = open_full_links_file()
+links = utils.get_full_links_from_file()
 
 print("\n----------Download images----------")
 # reference_time = None
@@ -101,4 +85,4 @@ for link in links:
         # Download image if not already stored
         download_image(url, ref, file_name, today)
 
-        force_wait_sleep_time(15)  # ! Dirty fix
+        utils.force_wait_sleep_time(15)  # ! Dirty fix

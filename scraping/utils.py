@@ -1,6 +1,5 @@
 import re
 import time
-import datetime
 import requests
 from bs4 import BeautifulSoup
 
@@ -35,5 +34,23 @@ def get_refs(url: str, regex) -> list[str]:
 
 #     # return reference_time
 #     return request_time
+
+
 def force_wait_sleep_time(sleep_time: int):
     time.sleep(sleep_time)
+
+
+# TODO: Create list of dict instead !
+def get_full_links_from_file() -> list[list[str]]:
+    """
+    Format: [[URL, ref, file_name],...]
+    """
+    links = []
+    with open("./scraping/full_links.txt", "r") as links_file:
+        file_content = links_file.read().split("\n")
+        links_file.close()
+
+    for link in file_content:
+        links.append(link.split("|"))
+
+    return links
