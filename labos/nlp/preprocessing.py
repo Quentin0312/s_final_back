@@ -74,6 +74,9 @@ def get_bags_of_words_vector(text: str, vocabulary: list[str]) -> list[int]:
 def pipeline_from_raw_text_to_vectors(
     raw_text: str, nlp: Language, vocabulary: list[str]
 ) -> list[int]:
+    """
+    To use after vocabulary is done (for test and inference)
+    """
     cleaned_text_content = clean_text(raw_text)
     filtered_text_content = remove_out_of_vocabulary_words(cleaned_text_content, nlp)
     lemmatized_text_content = lemmatize(filtered_text_content, nlp)
