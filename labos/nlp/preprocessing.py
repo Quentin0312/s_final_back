@@ -69,3 +69,13 @@ def get_bags_of_words_vector(text: str, vocabulary: list[str]) -> list[int]:
         vector.append(tokens.count(word))
 
     return vector
+
+
+def pipeline_from_raw_text_to_vectors(
+    raw_text: str, nlp: Language, vocabulary: list[str]
+) -> list[int]:
+    cleaned_text_content = clean_text(raw_text)
+    filtered_text_content = remove_out_of_vocabulary_words(cleaned_text_content, nlp)
+    lemmatized_text_content = lemmatize(filtered_text_content, nlp)
+
+    return get_bags_of_words_vector(lemmatized_text_content, vocabulary)
