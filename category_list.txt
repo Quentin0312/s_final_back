@@ -15,3 +15,5 @@ Catégories définies:
 	q. Beauté / Bien être
 	v. Véhicule (auto, moto, trottinette,...)
     j. Jouets
+
+	" ". Non labelisé (pas de produits sur la page)

@@ -13,8 +13,7 @@ Boucle (chaque 'image_path')
     - Label input de l'utilisateur enregistré dans un fichiers .txt
 """
 
-# TODO: Database de training à mettre en place !
-con = sqlite3.connect("./db/db_v1.sqlite")
+con = sqlite3.connect("./db/db_training_v1.sqlite")
 cur = con.cursor()
 
 select_sql_statement = sql_utils.get_sql_statement("select_training.sql")
@@ -24,8 +23,6 @@ response = cur.execute(select_sql_statement).fetchall()
 Format:
 list[(id_page:int, image_path: str)]
 """
-
-# ! Filter response of image that already have labels (check labels.txt) !
 
 
 # TODO: Put in utils file
@@ -53,16 +50,27 @@ def get_label_from_key_pressed(key: int) -> int:
 
 
 labels_file_name = "labels.txt"
+unlabeled_images_file_name = "unlabeled_images.txt"
 # TODO: Put in utils file
 already_labelized_images_path = []
 if labels_file_name in os.listdir("./"):
-    with open("./labels.txt", "r") as labels_file:
+    with open(f"./{labels_file_name}", "r") as labels_file:
         lines = labels_file.read().split("\n")
-        for info in lines:
+        for info in lines[:-1]:  # * last line is ""
             image_path = info.split("|")[0]
             already_labelized_images_path.append(image_path)
 
         labels_file.close()
+
+if unlabeled_images_file_name in os.listdir("./"):
+    with open(f"./{unlabeled_images_file_name}") as unlabeled_images_file:
+        [
+            already_labelized_images_path.append(image_path)
+            for image_path in unlabeled_images_file.read().split("\n")[
+                :-1
+            ]  # * last line is ""
+        ]
+        unlabeled_images_file.close()
 
 print("already_labelized_images", already_labelized_images_path)
 
@@ -83,6 +91,14 @@ for item in response:
 
     # Get label inputed
     key_pressed = cv2.waitKey(0)
+
+    # If image has no label (no product on it)
+    if key_pressed == ord(" "):
+        with open(f"./{unlabeled_images_file_name}", "a") as unlabeled_images_file:
+            unlabeled_images_file.write(image_path + "\n")
+            unlabeled_images_file.close()
+            cv2.destroyAllWindows()
+        continue
 
     label = get_label_from_key_pressed(key_pressed)
 

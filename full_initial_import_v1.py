@@ -19,7 +19,7 @@ cur = con.cursor()
 """
 (OCR) image => text
 folder_name = catalog_ref
-image_path
+image_path => file location
 """
 reader = easyocr.Reader(lang_list=["en"])  # or fr ?
 datas_dict = initial_import_utils.get_data_dict(reader, nb_catalog=3)
