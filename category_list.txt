@@ -1,0 +1,17 @@
+Catégories définies:
+	d. Décoration / Meubles / Aménagement intérieur
+	e. Électroménager  / Ustensiles
+	s. Multimédia (son, TV)
+	a. Aménagement ext / Jardin / Piscine / Animalerie
+	p. Papeterie
+	t. Téléphone
+	i. Informatique
+	h. Produits alimentaire et grande consommation
+	b. Bricolage / Bâtiments
+	c. Culture (livres, jeux-vidéos, musique)
+	m. Mode (bijoux, …) / Vêtements / Chaussure
+	s. Sport / AP
+	.. Bébé
+	q. Beauté / Bien être
+	v. Véhicule (auto, moto, trottinette,...)
+    j. Jouets
