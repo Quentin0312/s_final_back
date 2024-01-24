@@ -1,13 +1,13 @@
 Catégories définies:
 	d. Décoration / Meubles / Aménagement intérieur
-	e. Électroménager  / Ustensiles
+	e. Électroménager  / Ustensiles / équipement de maison (caméra)
 	s. Multimédia (son, TV)
 	a. Aménagement ext / Jardin / Piscine / Animalerie
 	p. Papeterie
 	t. Téléphone
 	i. Informatique
 	h. Produits alimentaire et grande consommation
-	b. Bricolage / Bâtiments
+	b. Bricolage / Bâtiments / Travaux maison
 	c. Culture (livres, jeux-vidéos, musique)
 	m. Mode (bijoux, …) / Vêtements / Chaussure
 	s. Sport / AP
@@ -16,4 +16,9 @@ Catégories définies:
 	v. Véhicule (auto, moto, trottinette,...)
     j. Jouets
 
-	" ". Non labelisé (pas de produits sur la page)
+	" ". Non labelisé
+		(pas de produits sur la page
+		OU diff catégories présentes
+		OU confus)
+
+		mercerie ?
