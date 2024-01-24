@@ -1,3 +1,4 @@
+import os
 import cv2
 import sqlite3
 from db import sql_utils
@@ -51,9 +52,27 @@ def get_label_from_key_pressed(key: int) -> int:
     return key_label_mapping[key]
 
 
+labels_file_name = "labels.txt"
+# TODO: Put in utils file
+already_labelized_images_path = []
+if labels_file_name in os.listdir("./"):
+    with open("./labels.txt", "r") as labels_file:
+        lines = labels_file.read().split("\n")
+        for info in lines:
+            image_path = info.split("|")[0]
+            already_labelized_images_path.append(image_path)
+
+        labels_file.close()
+
+print("already_labelized_images", already_labelized_images_path)
+
 for item in response:
     id_page = item[0]
     image_path = item[1]
+
+    # If image already labelizes
+    if image_path in already_labelized_images_path:
+        continue
 
     # Display image
     img = cv2.imread(image_path, cv2.IMREAD_ANYCOLOR)
@@ -71,6 +90,6 @@ for item in response:
     cv2.destroyAllWindows()
 
     # Save in file
-    with open("./labels.txt", "a") as labels_file:
+    with open(f"./{labels_file_name}", "a") as labels_file:
         labels_file.write(image_path + "|" + str(label) + "\n")
         labels_file.close()
