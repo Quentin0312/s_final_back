@@ -34,7 +34,10 @@ def predict(model, input: list[int]):
         y_pred = y_softmax.argmax(dim=1)
 
         result = y_softmax.detach().numpy()
-        class_prediction = label_mapping[y_pred.detach().numpy()[0]]
+        prediction = y_pred.detach().numpy()[0]
+        class_prediction = label_mapping[prediction]
 
         print("result", result)
         print("class_prediction =>", class_prediction)
+
+    return int(prediction)

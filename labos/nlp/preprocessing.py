@@ -86,3 +86,11 @@ def full_cleaning(raw_text: str, nlp: Language) -> str:
     cleaned_text_content = clean_text(raw_text)
     filtered_text_content = remove_out_of_vocabulary_words(cleaned_text_content, nlp)
     return lemmatize(filtered_text_content, nlp)
+
+
+def get_vocabulary(path: str) -> list[str]:
+    with open(path) as vocab_file:
+        vocabulary = vocab_file.read().split("|")
+        vocab_file.close()
+
+    return vocabulary
