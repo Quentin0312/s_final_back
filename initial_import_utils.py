@@ -51,6 +51,7 @@ def get_data_dict(reader: Reader, nb_catalog: int) -> dict:
         if catalog_ref == "train":
             pass
 
+        # ! Carefull, here only 2 page is used
         for page_file_name in os.listdir(f"./dataset/{catalog_ref}")[:2]:
             page_i += 1
             print(page_i)
