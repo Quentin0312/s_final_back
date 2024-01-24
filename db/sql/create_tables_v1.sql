@@ -1,13 +1,15 @@
 CREATE TABLE Catalog(
-    id_catalog INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_catalog TEXT,
     start_date TEXT,
-    end_date TEXT
+    end_date TEXT,
+    PRIMARY KEY(id_catalog)
 );
 
 CREATE TABLE Category(
-    id_category INTEGER PRIMARY KEY,
+    id_category INTEGER,
     name TEXT,
-    description TEXT
+    description TEXT,
+    PRIMARY KEY(id_category)
 );
 
 CREATE TABLE Page(
