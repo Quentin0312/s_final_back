@@ -52,7 +52,7 @@ def get_data_dict(reader: Reader, nb_catalog: int) -> dict:
             pass
 
         # ! Carefull, here only 2 page is used
-        for page_file_name in os.listdir(f"./dataset/{catalog_ref}")[:2]:
+        for page_file_name in os.listdir(f"./dataset/{catalog_ref}"):
             page_i += 1
             print(page_i)
 
