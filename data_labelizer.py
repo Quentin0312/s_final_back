@@ -3,6 +3,7 @@ import sqlite3
 from db import sql_utils
 import data_labelizer_utlis
 
+# TODO: Pour rester cohérent, commentaires et noms de variables à garder en anglais
 """
 Labelisation des pages présents dans la database de training.
 
