@@ -1,2 +1,5 @@
-SELECT content, category
-FROM Pages
+SELECT
+    content,
+    category
+FROM
+    Pages

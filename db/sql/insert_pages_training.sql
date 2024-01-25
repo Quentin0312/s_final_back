@@ -1,5 +1,4 @@
-INSERT INTO Pages(
-    content,
-    page_image,
-    category
-    ) VALUES (?,?,?)
+INSERT INTO
+    Pages (content, page_image, category)
+VALUES
+    (?, ?, ?)

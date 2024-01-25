@@ -1,3 +1,4 @@
-INSERT INTO Category(
-    id_category
-) VALUES (?)
+INSERT INTO
+    Category (id_category)
+VALUES
+    (?)

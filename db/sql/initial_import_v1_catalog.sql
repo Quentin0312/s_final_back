@@ -1,3 +1,4 @@
-INSERT INTO Catalog(
-    id_catalog
-) VALUES (?)
+INSERT INTO
+    Catalog (id_catalog)
+VALUES
+    (?)

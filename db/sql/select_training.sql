@@ -1,2 +1,5 @@
-SELECT id_page, image_path
-FROM Page 
+SELECT
+    id_page,
+    image_path
+FROM
+    Page

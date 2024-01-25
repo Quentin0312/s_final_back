@@ -1,2 +1,5 @@
-SELECT id_page, text
-FROM Page
+SELECT
+    id_page,
+    text
+FROM
+    Page
