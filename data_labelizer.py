@@ -1,12 +1,13 @@
-import os
 import cv2
 import sqlite3
 from db import sql_utils
+import data_labelizer_utlis
 
 """
 Labelisation des pages présents dans la database de training.
 
 - Récupération de 'image_path' de n image_path depuis la db
+- Récupérer la liste d' 'image_path' des images déjà labelisé
 
 Boucle (chaque 'image_path')
     - Affichage de l'image
@@ -25,54 +26,12 @@ list[(id_page:int, image_path: str)]
 """
 
 
-# TODO: Put in utils file
-def get_label_from_key_pressed(key: int) -> int:
-    key_label_mapping = {
-        ord("d"): 0,
-        ord("e"): 1,
-        ord("s"): 2,
-        ord("a"): 3,
-        ord("p"): 4,
-        ord("t"): 5,
-        ord("i"): 6,
-        ord("h"): 7,
-        ord("b"): 8,
-        ord("c"): 9,
-        ord("m"): 10,
-        ord("s"): 11,
-        ord("."): 12,
-        ord("q"): 13,
-        ord("v"): 14,
-        ord("j"): 15,
-    }
-
-    return key_label_mapping[key]
-
-
 labels_file_name = "labels.txt"
 unlabeled_images_file_name = "unlabeled_images.txt"
-# TODO: Put in utils file
-already_labelized_images_path = []
-if labels_file_name in os.listdir("./"):
-    with open(f"./{labels_file_name}", "r") as labels_file:
-        lines = labels_file.read().split("\n")
-        for info in lines[:-1]:  # * last line is ""
-            image_path = info.split("|")[0]
-            already_labelized_images_path.append(image_path)
 
-        labels_file.close()
-
-if unlabeled_images_file_name in os.listdir("./"):
-    with open(f"./{unlabeled_images_file_name}") as unlabeled_images_file:
-        [
-            already_labelized_images_path.append(image_path)
-            for image_path in unlabeled_images_file.read().split("\n")[
-                :-1
-            ]  # * last line is ""
-        ]
-        unlabeled_images_file.close()
-
-print("already_labelized_images", already_labelized_images_path)
+already_labelized_images_path = data_labelizer_utlis.get_already_labelized_image_path(
+    labels_file_name, unlabeled_images_file_name
+)
 
 for item in response:
     id_page = item[0]
@@ -100,7 +59,7 @@ for item in response:
             cv2.destroyAllWindows()
         continue
 
-    label = get_label_from_key_pressed(key_pressed)
+    label = data_labelizer_utlis.get_label_from_key_pressed(key_pressed)
 
     print("label", label)
     cv2.destroyAllWindows()
