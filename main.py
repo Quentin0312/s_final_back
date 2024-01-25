@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 from sqlite3 import Cursor
 
+from pydantic import BaseModel
+
 from db import sql_utils
 
 # TODO: Clean file
@@ -22,6 +24,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# TODO: Mettre en place sécurité contre injection SQL
 # TODO: Create a service like function that handle requests to db
 # TODO: Clean and refactor
 # TODO: Setup tests
@@ -30,11 +33,17 @@ app.add_middleware(
 
 # TODO: Rename
 # TODO: Put in an other file
-# TODO: Specify output format
-def get_page(key_word: str, cur: Cursor) -> list[str]:
-    sql = sql_utils.get_sql_statement("select_pages.sql")
+def get_pages(key_words: list[str], category: int, cur: Cursor) -> list[str]:
+    sql = sql_utils.get_sql_statement("select_pages_v1.sql")
+    keyword = f"%{key_words[0]}%"
 
-    res = cur.execute(sql, (f"%{key_word}%",))
+    # TODO: Take into account multiple key_words
+
+    # Take into account the category
+    if category != -1:
+        sql += f" AND id_category = {category};"
+
+    res = cur.execute(sql, (keyword,))
     return res.fetchall()
 
 
@@ -54,18 +63,25 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/search/{key_word}")
-def read_item(key_word: str):
-    con = sqlite3.connect("./db/db_v0.sqlite")
+class SearchInfos(BaseModel):
+    key_words: list[str]
+    category: int
+
+
+@app.post("/search")
+def read_item(search_infos: SearchInfos):
+    con = sqlite3.connect("./db/db_training_v1.sqlite")
     cur = con.cursor()
 
-    response = get_page(key_word, cur)
+    response = get_pages(search_infos.key_words, search_infos.category, cur)
+    print(response)
 
-    encoded_image = get_image_encoded(response[0][1])
+    # Linked categories
+    categories = list(set([elt[2] for elt in response]))
+    if None in categories:
+        categories.remove(None)
 
-    return {
-        "key_word": key_word,
-        "first_text_content": response[0][0],
-        "image_base64": encoded_image,
-    }
-    # return StreamingResponse(io.BytesIO(response[0][1]), media_type="image/jpg")
+    # Images
+    images_encoded = [get_image_encoded(elt[1]) for elt in response]
+
+    return {"categories": categories, "list_image_base64": images_encoded}
