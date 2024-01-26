@@ -70,7 +70,8 @@ class SearchInfos(BaseModel):
 
 @app.post("/search")
 def read_item(search_infos: SearchInfos):
-    con = sqlite3.connect("./db/db_training_v1.sqlite")
+    # con = sqlite3.connect("./db/db_training_v1.sqlite")
+    con = sqlite3.connect("./db/db_v1.sqlite")
     cur = con.cursor()
 
     response = get_pages(search_infos.key_words, search_infos.category, cur)
