@@ -10,7 +10,7 @@ Catégories définies:
 	b. Bricolage / Bâtiments / Travaux maison
 	c. Culture (livres, jeux-vidéos, musique)
 	m. Mode (bijoux, …) / Vêtements / Chaussure
-	s. Sport / AP
+(idiot s est déjà utilisé)	s. Sport / AP
 	.. Bébé
 	q. Beauté / Bien être
 	v. Véhicule (auto, moto, trottinette,...)

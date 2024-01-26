@@ -1,5 +1,5 @@
 SELECT
-    content,
-    category
+    text,
+    id_category
 FROM
-    Pages
+    Page

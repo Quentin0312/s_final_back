@@ -27,6 +27,7 @@ def get_already_labelized_image_path(
     return already_labelized_images_path
 
 
+# ! FIX: "s" UTILISÉ POUR 2 CATÉGORIES (SPORT ET MULTIMÉDIA)
 def get_label_from_key_pressed(key: int) -> int:
     key_label_mapping = {
         ord("d"): 0,

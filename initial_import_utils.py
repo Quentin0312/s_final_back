@@ -42,7 +42,9 @@ def get_data_dict(reader: Reader, nb_catalog: int) -> dict:
     catalog_i = 0
     page_i = 0
 
-    refs_list = open_refs_file()[:nb_catalog]
+    refs_list = open_refs_file()[
+        100 : nb_catalog + 100
+    ]  # ! Dirty (just to take images that don't have been take for training)
     for catalog_ref in refs_list:
         catalog_ref = catalog_ref[:-1]
         catalog_i += 1
@@ -51,7 +53,6 @@ def get_data_dict(reader: Reader, nb_catalog: int) -> dict:
         if catalog_ref == "train":
             pass
 
-        # ! Carefull, here only 2 page is used
         for page_file_name in os.listdir(f"./dataset/{catalog_ref}"):
             page_i += 1
             print(page_i)
