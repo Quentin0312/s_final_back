@@ -20,10 +20,29 @@ class PageClassifier(nn.Module):
 
 
 def predict(model, input: list[int]):
+    # label_mapping = {
+    #     0: "Meuble | Aménagement int | Décoration",
+    #     1: "Électroménager  | Ustensiles",
+    #     2: "Multimédia (son,TV)",
+    # }
+
     label_mapping = {
-        0: "Meuble | Aménagement int | Décoration",
-        1: "Électroménager  | Ustensiles",
-        2: "Multimédia (son,TV)",
+        0: "Meubles",
+        1: "Électroménager",
+        2: "Multimédia",
+        3: "Exterieur",
+        4: "Papeterie",
+        5: "Téléphone",
+        6: "Informatique",
+        7: "Grande distribution",
+        8: "Bricolage",
+        9: "Culture",
+        10: "Mode",
+        11: "Sport",
+        12: "Bébé",
+        13: "Bien être",
+        14: "Véhicule",
+        15: "Jouets",
     }
     model.eval()
 
@@ -37,7 +56,7 @@ def predict(model, input: list[int]):
         prediction = y_pred.detach().numpy()[0]
         class_prediction = label_mapping[prediction]
 
-        print("result", result)
-        print("class_prediction =>", class_prediction)
+        # print("result", result)
+        # print("class_prediction =>", class_prediction)
 
     return int(prediction)

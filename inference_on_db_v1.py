@@ -36,14 +36,17 @@ model.load_state_dict(torch.load("./labos/nlp/model_weight_v1.pth"))
 
 nlp = spacy.load("fr_core_news_lg")
 
-
+i = 0
 for page_element in response:
     id_page = page_element[0]
     raw_text = page_element[1]
 
+    i += 1
+    if i % 10 == 0:
+        print(i)
     input = preprocessing.pipeline_from_raw_text_to_vectors(raw_text, nlp, vocabulary)
     label = model_utils.predict(model, input)
-    print("label", label)
+    # print("label", label)
     update_page_sql_statement = sql_utils.get_sql_statement(
         "update_with_category_v1.sql"
     )
