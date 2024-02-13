@@ -22,8 +22,7 @@ folder_name = catalog_ref
 image_path => file location
 """
 reader = easyocr.Reader(lang_list=["en"])
-# datas_dict = initial_import_utils.get_data_dict(reader, nb_catalog=100)
-datas_dict = initial_import_utils.get_data_dict(reader, nb_catalog=1)
+datas_dict = initial_import_utils.get_data_dict(reader, nb_catalog=100)
 
 
 # Insert in db
