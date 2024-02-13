@@ -41,7 +41,7 @@ def get_label_from_key_pressed(key: int) -> int:
         ord("b"): 8,
         ord("c"): 9,
         ord("m"): 10,
-        ord("s"): 11,
+        ord("y"): 11,
         ord("."): 12,
         ord("q"): 13,
         ord("v"): 14,

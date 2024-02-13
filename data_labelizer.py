@@ -1,5 +1,6 @@
 import cv2
 import sqlite3
+
 from db import sql_utils
 import data_labelizer_utlis
 
@@ -7,7 +8,7 @@ import data_labelizer_utlis
 """
 Labelisation des pages présents dans la database de training.
 
-- Récupération de 'image_path' de n image_path depuis la db
+- Récupération de n 'image_path' image_path depuis la db
 - Récupérer la liste d' 'image_path' des images déjà labelisé
 
 Boucle (chaque 'image_path')
