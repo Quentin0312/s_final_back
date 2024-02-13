@@ -44,6 +44,20 @@ def remove_out_of_vocabulary_words(text: str, nlp: Language) -> str:
     return text
 
 
+def remove_stop_words(text: str, nlp: Language) -> str:
+    """
+    Exemple of stop words: "le", "du", "de"
+    """
+    new_token_list = []
+    for token in text.split(" "):
+        if not (nlp.vocab[token].is_stop or nlp.vocab[token].is_punct):
+            new_token_list.append(token)
+
+    text = " ".join(new_token_list)
+
+    return text
+
+
 def lemmatize(text: str, nlp: Language) -> str:
     """
     Lemmatize is replacing a word with it's root word.
@@ -85,7 +99,8 @@ def pipeline_from_raw_text_to_vectors(
 def full_cleaning(raw_text: str, nlp: Language) -> str:
     cleaned_text_content = clean_text(raw_text)
     filtered_text_content = remove_out_of_vocabulary_words(cleaned_text_content, nlp)
-    return lemmatize(filtered_text_content, nlp)
+    extra_filtered_text_content = remove_stop_words(filtered_text_content, nlp)
+    return lemmatize(extra_filtered_text_content, nlp)
 
 
 def get_vocabulary(path: str) -> list[str]:

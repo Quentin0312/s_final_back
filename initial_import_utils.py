@@ -19,7 +19,7 @@ def delete_db_if_already_exists(db_file_name: str) -> None:
         os.remove(f"./db/{db_file_name}")
 
 
-def create_db(db_file_name: str, sql_file_name: str):
+def create_db_with_tables(db_file_name: str, sql_file_name: str):
     delete_db_if_already_exists(db_file_name)
 
     # Create database and connect
@@ -33,6 +33,7 @@ def create_db(db_file_name: str, sql_file_name: str):
 
 
 # TODO: Clean
+# TODO: Make a specific one for production db initial import
 def get_data_dict(reader: Reader, nb_catalog: int) -> dict:
     datas_dict = {}
     """
@@ -43,8 +44,8 @@ def get_data_dict(reader: Reader, nb_catalog: int) -> dict:
     page_i = 0
 
     refs_list = open_refs_file()[
-        100 : nb_catalog + 100
-    ]  # ! Dirty (just to take images that don't have been take for training)
+        :nb_catalog
+    ]  # ! Change for production initial import !
     for catalog_ref in refs_list:
         catalog_ref = catalog_ref[:-1]
         catalog_i += 1
@@ -85,6 +86,26 @@ def initial_import(
     #  Insert new pages
     for key in list(datas_dict.keys()):
         cur.execute(sql_insert_page, (key, datas_dict[key][0], datas_dict[key][1]))
+
+    # Commit
+    con.commit()
+
+
+def initial_import_analytic(
+    cur: Cursor,
+    con: Connection,
+    datas_dict: dict,
+    sql_insert_page: str,
+) -> None:
+    #  Insert new pages
+    for key in list(datas_dict.keys()):
+        cur.execute(
+            sql_insert_page,
+            (
+                key,
+                datas_dict[key][0],
+            ),
+        )
 
     # Commit
     con.commit()

@@ -12,7 +12,7 @@
 
 Training:
 
-- `full_import_initial.py` (write on db)
+- `initial_import_analytic_database.py` (write on db)
 - `data_labelizer` (write in a .txt file)
 - `update_labels_train.py` (write on db)
 
