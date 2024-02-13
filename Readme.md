@@ -14,7 +14,7 @@ Training:
 
 - `initial_import_analytic_database.py` (write on db)
 - `data_labelizer` (write in a .txt file)
-- `update_labels_train.py` (write on db)
+- `update_labels_analytic.py` (write on db)
 
 Application db:
 

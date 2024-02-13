@@ -1,7 +1,7 @@
 import sqlite3
 from db import sql_utils
 
-db_file_name = "db_training_v1.sqlite"
+db_file_name = "db_analytic.sqlite"
 labels_file_name = "labels.txt"
 
 con = sqlite3.connect(f"./db/{db_file_name}")
@@ -41,19 +41,7 @@ category_data_dict = {
     16: "Jouets",
 }  # Add "unlabeled" label ?
 
-sql_insert_statement = sql_utils.get_sql_statement("insert_category_training_v1.sql")
-for key in list(category_data_dict.keys()):
-    cur.execute(
-        sql_insert_statement,
-        (
-            key,
-            category_data_dict[key],
-        ),
-    )
-
-sql_update_statement = sql_utils.get_sql_statement(
-    "update_with_category_training_v1.sql"
-)
+sql_update_statement = sql_utils.get_sql_statement("update_category_analytic.sql")
 
 for key in list(labels_dict.keys()):
     cur.execute(sql_update_statement, (labels_dict[key], key))
