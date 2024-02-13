@@ -56,7 +56,7 @@ def predict(model, input: list[int]):
         prediction = y_pred.detach().numpy()[0]
         class_prediction = label_mapping[prediction]
 
-        # print("result", result)
-        # print("class_prediction =>", class_prediction)
+        print("result", result)
+        print("class_prediction =>", class_prediction)
 
     return int(prediction)
