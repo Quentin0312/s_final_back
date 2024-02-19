@@ -1,4 +1,5 @@
 import re
+import os
 import datetime
 import shutil
 import time
@@ -8,7 +9,7 @@ from bs4 import BeautifulSoup
 
 def get_dates(href: str) -> tuple[str, str]:
     response = requests.get("https://lapub.re/" + href)
-    time.sleep(2)
+    # time.sleep(1)
     soup = BeautifulSoup(response.text, "html.parser")
     start_date = soup.find(id="tzA16").text
     end_date = soup.find(id="tzA17").text
@@ -68,14 +69,14 @@ def get_all_files_names(refs: list[str], sleep: int) -> dict:
         # reference_time = wait_sleep_time_is_passed(reference_time, sleep_time=30)
 
         image_file_names = get_refs(
-            url=f"https://lapub.re/prospectus/{ref}HTML/files/assets/common/page-html5-substrates/",
+            url=f"https://lapub.re/prospectus/{ref}/HTML/files/assets/common/page-html5-substrates/",
             regex=r"page\d{4}_\d\.jpg",
         )
         print(
             datetime.datetime.now(),
-            f"=> https://lapub.re/prospectus/{ref}HTML/files/assets/common/page-html5-substrates/",
+            f"=> https://lapub.re/prospectus/{ref}/HTML/files/assets/common/page-html5-substrates/",
         )
-        force_wait_sleep_time(sleep)  # ! Dirty fix
+        # force_wait_sleep_time(sleep)  # ! Dirty fix
 
         prospectus[ref] = image_file_names
 
@@ -89,7 +90,9 @@ def force_wait_sleep_time(sleep_time: int):
 
 # TODO: Refactor
 def download_image(url: str, ref: str, file_name: str) -> None:
+    print("download image")
     res = requests.get(url, stream=True)
+    print("image downloaded")
     log_info = (
         datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         + " | Ref: "
@@ -99,6 +102,9 @@ def download_image(url: str, ref: str, file_name: str) -> None:
     )
 
     if res.status_code == 200:
+        if ref not in os.listdir("../../prod_dataset/"):
+            os.mkdir(f"../../prod_dataset/{ref}")
+
         with open(f"../../prod_dataset/{ref}/{file_name}", "wb") as image_file:
             shutil.copyfileobj(res.raw, image_file)
             image_file.close()
@@ -108,14 +114,16 @@ def download_image(url: str, ref: str, file_name: str) -> None:
 
 
 def get_full_links(ref: str) -> list[str]:
-    catalog_dict = get_all_files_names([ref], sleep=2)
+    catalog_dict = get_all_files_names([ref], sleep=1)
+    print("catalog_dict", catalog_dict)
     remove_lower_quality_image_names(catalog_dict)
+    print("catalog_dict keys", catalog_dict.keys())
 
     links = []
     for ref in list(catalog_dict.keys()):
         for file_name in catalog_dict[ref]:
             links.append(
-                f"https://lapub.re/prospectus/{ref}HTML/files/assets/common/page-html5-substrates/{file_name}"
+                f"https://lapub.re/prospectus/{ref}/HTML/files/assets/common/page-html5-substrates/{file_name}"
             )
 
     return links
@@ -124,4 +132,4 @@ def get_full_links(ref: str) -> list[str]:
 def download_all_images(links: list[str], ref: str) -> None:
     for link in links:
         download_image(link, ref, link.split("/")[-1])
-        force_wait_sleep_time(1)
+        # force_wait_sleep_time(1)
