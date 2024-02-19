@@ -19,7 +19,7 @@ def get_dates(href: str) -> tuple[str, str]:
 
 def save_dates(ref: str, start_date: str, end_date: str) -> None:
     with open("./catalog_dates.txt", "a") as catalog_dates_file:
-        catalog_dates_file.write(ref + "|" + start_date + "|" + end_date + "|" + "\n")
+        catalog_dates_file.write(ref + "|" + start_date + "|" + end_date + "\n")
 
 
 # TODO: Refactor
@@ -132,4 +132,4 @@ def get_full_links(ref: str) -> list[str]:
 def download_all_images(links: list[str], ref: str) -> None:
     for link in links:
         download_image(link, ref, link.split("/")[-1])
-        # force_wait_sleep_time(1)
+        force_wait_sleep_time(5)
