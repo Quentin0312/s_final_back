@@ -20,3 +20,14 @@ Application db:
 
 - `full_import_initial.py` (write on db)
 - `inference_on_db` (write on db)
+
+Prod db:
+
+Création:
+
+- `create_db.py`
+
+Updating:
+
+- `final_scraping.py`
+- TODO: nlp_labelizer.py

@@ -10,7 +10,6 @@ CREATE TABLE
     Category (
         id_category INTEGER,
         name TEXT,
-        description TEXT,
         PRIMARY KEY (id_category)
     );
 
@@ -18,7 +17,6 @@ CREATE TABLE
     Page (
         id_page INTEGER PRIMARY KEY AUTOINCREMENT,
         image_path TEXT,
-        type TEXT,
         text TEXT,
         id_category INT,
         id_catalog INT,
