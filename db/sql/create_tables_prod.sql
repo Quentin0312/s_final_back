@@ -16,7 +16,7 @@ CREATE TABLE
 CREATE TABLE
     Page (
         id_page INTEGER PRIMARY KEY AUTOINCREMENT,
-        image_path TEXT,
+        image_path TEXT UNIQUE,
         text TEXT,
         id_category INT,
         id_catalog INT,
