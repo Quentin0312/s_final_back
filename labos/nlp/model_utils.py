@@ -20,12 +20,6 @@ class PageClassifier(nn.Module):
 
 
 def predict(model, input: list[int]):
-    # label_mapping = {
-    #     0: "Meuble | Aménagement int | Décoration",
-    #     1: "Électroménager  | Ustensiles",
-    #     2: "Multimédia (son,TV)",
-    # }
-
     label_mapping = {
         0: "Meubles",
         1: "Électroménager",
