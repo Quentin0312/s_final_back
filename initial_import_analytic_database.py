@@ -1,3 +1,5 @@
+# TODO: Delete
+
 import sqlite3
 import easyocr
 

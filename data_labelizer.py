@@ -1,3 +1,5 @@
+# TODO: Delete
+
 import cv2
 import sqlite3
 
