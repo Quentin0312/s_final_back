@@ -4,6 +4,25 @@ import sqlite3
 from db import sql_utils
 import data_labelizer_utlis
 
+category_data_dict = {
+    0: "Décoration / Meubles / Aménagement intérieur",
+    1: "Électroménager  / Ustensiles / équipement de maison (caméra)",
+    2: "Multimédia (son, TV)",
+    3: "Aménagement ext / Jardin / Piscine / Animalerie",
+    4: "Papeterie",
+    5: "Téléphone",
+    6: "Informatique",
+    7: "Produits alimentaire et grande consommation",
+    8: "Bricolage / Bâtiments / Travaux maison",
+    9: "Culture (livres, jeux-vidéos, musique)",
+    10: "Mode (bijoux, …) / Vêtements / Chaussure",
+    11: "Sport / AP",
+    12: "Bébé",
+    13: "Beauté / Bien être",
+    14: "Véhicule (auto, moto, trottinette,...)",
+    15: "Jouets",
+}  # Add "unlabeled" label ?
+
 # TODO: Pour rester cohérent, commentaires et noms de variables à garder en anglais
 """
 Labelisation des pages présents dans la database de training.
@@ -67,6 +86,7 @@ def listen_keys():
 
         # Get label from key pressed
         label = data_labelizer_utlis.get_label_from_key_pressed(key_pressed)
+        print("label =>", category_data_dict[label])
         if i == 0:
             labels += str(label)
         else:
