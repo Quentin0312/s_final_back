@@ -10,11 +10,17 @@
 
 ##### Ordre de remplissage de la db:
 
-Training:
+Training v1:
 
 - `initial_import_analytic_database.py` (write on db)
 - `data_labelizer` (write in a .txt file)
 - `update_labels_analytic.py` (write on db)
+
+Training v2:
+
+- `initial_import_analytic_database_multi-class.py` (write on db)
+- `data_labelizer_multi-class.py` (write in a .txt file)
+- `update_labels_analytic_multi-class.py` (write on db)
 
 Application db:
 

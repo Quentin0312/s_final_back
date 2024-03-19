@@ -22,6 +22,7 @@ def train_multi_label(model, criterion, optimizer, inputs, labels, epochs=100):
     for epoch in range(epochs):
         optimizer.zero_grad()
         outputs = model(inputs)
+        print("output => ", outputs)
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
