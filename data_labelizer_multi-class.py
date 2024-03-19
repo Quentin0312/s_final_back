@@ -37,6 +37,48 @@ already_labelized_images_path = data_labelizer_utlis.get_already_labelized_image
     labels_file_name, unlabeled_images_file_name
 )
 
+print("already labelized images =>", len(already_labelized_images_path))
+
+
+def listen_keys():
+    """
+    Listen inputed keys and save labels in file
+    """
+
+    labels = ""
+    for i in range(16):
+        # Get key pressed
+        key_pressed = cv2.waitKey(0)
+
+        if key_pressed == ord(" "):
+            # If image has no label (no product on it)
+            if labels == "":
+                with open(
+                    f"./{unlabeled_images_file_name}", "a"
+                ) as unlabeled_images_file:
+                    unlabeled_images_file.write(image_path + "\n")
+                    unlabeled_images_file.close()
+                    cv2.destroyAllWindows()
+                return
+
+            # If all label key already pressed
+            else:
+                break
+
+        # Get label from key pressed
+        label = data_labelizer_utlis.get_label_from_key_pressed(key_pressed)
+        if i == 0:
+            labels += str(label)
+        else:
+            labels += "," + str(label)
+
+    # Save in file
+    with open(f"./{labels_file_name}", "a") as labels_file:
+        labels_file.write(image_path + "|" + str(labels) + "\n")
+        labels_file.close()
+
+
+# For each images of training dataset
 for item in response:
     id_page = item[0]
     image_path = item[1]
@@ -47,28 +89,12 @@ for item in response:
 
     # Display image
     img = cv2.imread(image_path, cv2.IMREAD_ANYCOLOR)
-
     cv2.namedWindow(image_path, cv2.WINDOW_NORMAL)
     cv2.resizeWindow(image_path, width=700, height=1000)
     cv2.imshow(image_path, img)
 
-    # Get label inputed
-    key_pressed = cv2.waitKey(0)
+    # Listen inputed keys and save labels in file
+    listen_keys()
 
-    # If image has no label (no product on it)
-    if key_pressed == ord(" "):
-        with open(f"./{unlabeled_images_file_name}", "a") as unlabeled_images_file:
-            unlabeled_images_file.write(image_path + "\n")
-            unlabeled_images_file.close()
-            cv2.destroyAllWindows()
-        continue
-
-    label = data_labelizer_utlis.get_label_from_key_pressed(key_pressed)
-
-    print("label", label)
+    # Destroy image displayed windows
     cv2.destroyAllWindows()
-
-    # Save in file
-    with open(f"./{labels_file_name}", "a") as labels_file:
-        labels_file.write(image_path + "|" + str(label) + "\n")
-        labels_file.close()
