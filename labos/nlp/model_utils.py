@@ -1,6 +1,25 @@
 import torch
 from torch import nn
 
+label_mapping = {
+    0: "Meubles",
+    1: "Électroménager",
+    2: "Multimédia",
+    3: "Exterieur",
+    4: "Papeterie",
+    5: "Téléphone",
+    6: "Informatique",
+    7: "Grande distribution",
+    8: "Bricolage",
+    9: "Culture",
+    10: "Mode",
+    11: "Sport",
+    12: "Bébé",
+    13: "Bien être",
+    14: "Véhicule",
+    15: "Jouets",
+}
+
 
 class PageClassifier(nn.Module):
     def __init__(self, input_features, output_features):
@@ -20,24 +39,6 @@ class PageClassifier(nn.Module):
 
 
 def predict(model, input: list[int]):
-    label_mapping = {
-        0: "Meubles",
-        1: "Électroménager",
-        2: "Multimédia",
-        3: "Exterieur",
-        4: "Papeterie",
-        5: "Téléphone",
-        6: "Informatique",
-        7: "Grande distribution",
-        8: "Bricolage",
-        9: "Culture",
-        10: "Mode",
-        11: "Sport",
-        12: "Bébé",
-        13: "Bien être",
-        14: "Véhicule",
-        15: "Jouets",
-    }
     model.eval()
 
     with torch.inference_mode():
@@ -54,3 +55,20 @@ def predict(model, input: list[int]):
         print("class_prediction =>", class_prediction)
 
     return int(prediction)
+
+
+def predict_multi_class(model, input: list[int]) -> str:
+    model.eval()
+
+    with torch.inference_mode():
+        X = torch.tensor([input]).type(torch.float32)
+        y_logits = model(X)
+        y_pred = torch.sigmoid(y_logits)
+
+        result = ""
+        for i in range(16):
+
+            if y_pred[0][i] >= 0.5:
+                result += "| " + label_mapping[i]
+
+    return result
