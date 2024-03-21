@@ -21,6 +21,20 @@ label_mapping = {
 }
 
 
+class PageClassifierMultiLabel(nn.Module):
+    def __init__(self, input_features, output_features):
+        super().__init__()
+        self.linear_layer_stack = nn.Sequential(
+            nn.Linear(in_features=input_features, out_features=128),
+            nn.ReLU(),
+            nn.Linear(in_features=128, out_features=output_features),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, x):
+        return self.linear_layer_stack(x)
+
+
 class PageClassifier(nn.Module):
     def __init__(self, input_features, output_features):
         super().__init__()
