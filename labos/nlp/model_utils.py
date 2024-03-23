@@ -86,3 +86,24 @@ def predict_multi_class(model, input: list[int]) -> str:
                 result += "| " + label_mapping[i]
 
     return result
+
+
+def predict_multi_class_raw(model, input: list[int]):
+    model.eval()
+
+    with torch.inference_mode():
+        X = torch.tensor([input]).type(torch.float32)
+        y_logits = model(X)
+        y_pred = torch.sigmoid(y_logits)
+
+        result = []
+        for i in range(16):
+
+            if y_pred[0][i] >= 0.5:
+                result.append(i)
+
+        if len(result) == 0:
+            y_pred_bis = torch.softmax(y_logits, dim=1).argmax(dim=1)
+            result = [int(y_pred_bis.detach().numpy()[0])]
+
+    return result
