@@ -37,3 +37,19 @@ Updating:
 
 - `final_scraping.py`
 - TODO: nlp_labelizer.py
+
+---
+
+# Prod db full creation process
+
+## Data scrapping
+
+## Create prod db :
+
+create_db_final.py
+
+## Initial import :
+
+initial_import_prod_final.py
+
+## Insert db page_categories with model inference
