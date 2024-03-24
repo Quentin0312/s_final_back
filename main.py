@@ -120,9 +120,11 @@ def read_item(search_infos: SearchInfos):
     # if None in categories:
     #     categories.remove(None)
 
-    # TODO: Specifier les dates
     # TODO: Filtrer selon les dates
     # Images
-    images_encoded = [get_image_encoded(elt[0]) for elt in response]
+    images_encoded = [
+        {"image": get_image_encoded(elt[0]), "startDate": elt[1], "endDate": elt[2]}
+        for elt in response
+    ]
 
     return {"categories": categories, "list_image_base64": images_encoded}
