@@ -86,6 +86,10 @@ class SearchInfos(BaseModel):
     category: int
 
 
+class Infos(BaseModel):
+    id_catalog: str
+
+
 # @app.post("/search")
 # def read_item(search_infos: SearchInfos):
 #     # con = sqlite3.connect("./db/db_training_v1.sqlite")
@@ -154,8 +158,29 @@ def read_item(search_infos: SearchInfos):
     # TODO: Filtrer selon les dates
     # Images
     images_encoded = [
-        {"image": get_image_encoded(elt[0]), "startDate": elt[1], "endDate": elt[2]}
+        {
+            "image": get_image_encoded(elt[0]),
+            "startDate": elt[1],
+            "endDate": elt[2],
+            "idCatalog": elt[4],
+        }
         for elt in response_filtered
     ]
 
     return {"categories": categories, "list_image_base64": images_encoded}
+
+
+@app.post("/get_important_pages")
+def get_first_and_last_pages(infos: Infos):
+    con = sqlite3.connect("./db/db_prod_final.sqlite")
+    cur = con.cursor()
+
+    sql_request = sql_utils.get_sql_statement("select_important_pages.sql")
+
+    response = cur.execute(sql_request, (infos.id_catalog,)).fetchall()
+    print("response", response)
+
+    return {
+        "first_image": get_image_encoded(response[0][0]),
+        "last_image": get_image_encoded(response[-1][0]),
+    }
