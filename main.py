@@ -1,5 +1,4 @@
-# import io
-# from starlette.responses import StreamingResponse
+from datetime import datetime
 import base64
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -107,6 +106,35 @@ class SearchInfos(BaseModel):
 #     return {"categories": categories, "list_image_base64": images_encoded}
 
 
+# TODO : Move
+def filter_expired_catalog(response):
+    response_filtered = []
+
+    for elt in response:
+        date = elt[2].split("/")
+        target_day = int(date[0])
+        target_month = int(date[1])
+        target_year = int(date[2])
+
+        current_year = datetime.now().year
+        current_month = datetime.now().month
+        current_day = datetime.now().day
+
+        if target_year > current_year:
+            response_filtered.append(elt)
+            continue
+        if target_year == current_year and target_month > current_month:
+            response_filtered.append(elt)
+            continue
+        if (
+            target_year == current_year
+            and target_month == current_month
+            and target_day > current_day
+        ):
+            response_filtered.append(elt)
+    return response_filtered
+
+
 @app.post("/search")
 def read_item(search_infos: SearchInfos):
     con = sqlite3.connect("./db/db_prod_final.sqlite")
@@ -115,8 +143,11 @@ def read_item(search_infos: SearchInfos):
     response = get_pages(search_infos.key_words, search_infos.category, cur)
     print(response)
 
+    # TODO: In db change start_date and en_date types to dates and filter dates directly in sql
+    response_filtered = filter_expired_catalog(response)
+
     # Linked categories
-    categories = list(set([elt[3] for elt in response]))
+    categories = list(set([elt[3] for elt in response_filtered]))
     # if None in categories:
     #     categories.remove(None)
 
@@ -124,7 +155,7 @@ def read_item(search_infos: SearchInfos):
     # Images
     images_encoded = [
         {"image": get_image_encoded(elt[0]), "startDate": elt[1], "endDate": elt[2]}
-        for elt in response
+        for elt in response_filtered
     ]
 
     return {"categories": categories, "list_image_base64": images_encoded}
