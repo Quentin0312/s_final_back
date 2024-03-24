@@ -14,6 +14,7 @@ from db import sql_utils
 
 app = FastAPI()
 
+# TODO: Secure the app
 origins = ["*"]
 
 app.add_middleware(
