@@ -104,6 +104,7 @@ sympy==1.12
 thinc==8.2.2
 threadpoolctl==3.2.0
 tifffile==2023.12.9
+torch==2.1.2
 torchvision==0.16.2
 tornado==6.4
 tqdm==4.66.1
