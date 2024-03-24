@@ -53,3 +53,5 @@ create_db_final.py
 initial_import_prod_final.py ??? OU final_scrapping.ipynb
 
 ## Insert db page_categories with model inference
+
+4
